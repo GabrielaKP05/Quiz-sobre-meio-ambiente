@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="quiz.png" type="image/x-icon">
+   
+    <title>QUIZ</title>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <h1>Quiz sobre Meio Ambiente</h1>
+        <div id="pergunta"></div>
+        <div id="opcoes"></div>
+        <div id="resultado"></div>
+        <div id="quiz-terminado" style="display: none;">
+            <h2>Quiz Terminado!</h2>
+            <button onclick="recomecarQuiz()">Recomeçar Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        const perguntas = [
+            {
+                pergunta:"Qual seria a consequência de uma melhor gestão do lixo orgânico?",
+                opcoes:["Redução nos custos de produção.", "Aumento da poluição do ar.", "Geração de empregos na indústria da reciclagem.", "Diminuição do consumo de energia."],
+                resposta:"Geração de empregos na indústria da reciclagem."
+            },
+            {
+                pergunta:"Qual é o maior problema causado pelos plásticos nos oceanos?",
+                opcoes:["Aumento do nível do mar", "Acidificação dos oceanos", "Poluição visual", "Poluição por microplásticos"],
+                resposta:"Poluição por microplásticos"
+            },
+            {
+                pergunta:"Qual a principal causa do desmatamento na Amazônia?",
+                opcoes:["Agropecuária", "Exploração madeireira", "Mineração", "Urbanização"],
+                resposta:"Agropecuária"
+            },
+            {
+                pergunta:"Quanto do lixo brasileiro é destinado a usinas de compostagem?",
+                opcoes:["1,5%", "2,1%", "0,9%", "0,3%"],
+                resposta:"0,9%"
+            },
+            {
+                pergunta:"Qual a principal fonte de energia renovável utilizada no Brasil?",
+                opcoes:["Eólica", "Solar", "Hidrelétrica", "Biomassa"],
+                resposta:"Hidrelétrica"
+            }
+        ];
+
+        const perguntaElemento = document.getElementById("pergunta");
+        const opcoesElemento = document.getElementById("opcoes");
+        const resultadoElemento = document.getElementById("resultado");
+        const quizTerminadoElemento = document.getElementById("quiz-terminado");
+
+        let indicePerguntaAtual = 0;
+        let respostasCorretas = 0;
+
+        function carregarPergunta(){
+            const perguntaAtual = perguntas[indicePerguntaAtual];
+            perguntaElemento.textContent = perguntaAtual.pergunta;
+
+            opcoesElemento.innerHTML = "";
+            perguntaAtual.opcoes.forEach(opcao => {
+                const botao = document.createElement("button");
+                botao.textContent = opcao;
+                botao.addEventListener("click", () => verificaResposta(opcao));
+                opcoesElemento.appendChild(botao);
+            });
+
+            resultadoElemento.textContent = ""; // Limpar mensagem de resultado
+        }
+
+        function verificaResposta(respostaSelecionada) {
+            const perguntaAtual = perguntas[indicePerguntaAtual];
+            if (respostaSelecionada === perguntaAtual.resposta) {
+                resultadoElemento.textContent = "Resposta correta!";
+                resultadoElemento.className = "correto";
+                respostasCorretas++;
+            } else {
+                resultadoElemento.textContent = "Resposta incorreta. A resposta correta é: " + perguntaAtual.resposta;
+                resultadoElemento.className = "incorreto";
+            }
+
+            // Avança para a próxima pergunta ou finaliza o quiz
+            indicePerguntaAtual++;
+
+            if (indicePerguntaAtual < perguntas.length) {
+                setTimeout(carregarPergunta, 2000); // Carregar próxima pergunta após 2 segundos
+            } else {
+                setTimeout(() => {
+                    if (respostasCorretas === perguntas.length) {
+                        quizTerminadoElemento.innerHTML = "<h2>Quiz Terminado!</h2><p>Parabéns! Você acertou todas as perguntas.</p><button onclick='recomecarQuiz()'>Recomeçar Quiz</button>";
+                    } else {
+                        quizTerminadoElemento.innerHTML = "<h2>Quiz Terminado!</h2><p>Você respondeu corretamente " + respostasCorretas + " de " + perguntas.length + " perguntas.</p><button onclick='recomecarQuiz()'>Recomeçar Quiz</button>";
+                    }
+                    quizTerminadoElemento.style.display = "block";
+                }, 2000);
+            }
+        }
+
+        function recomecarQuiz() {
+            indicePerguntaAtual = 0;
+            respostasCorretas = 0;
+            quizTerminadoElemento.style.display = "none";
+            carregarPergunta();
+        }
+
+        // Carrega a primeira pergunta quando a página carrega
+        carregarPergunta();
+    </script>
+    
+</body>
+</html>
+
