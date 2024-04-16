@@ -7,7 +7,7 @@ Este é um projeto de quiz desenvolvido utilizando HTML, CSS e JavaScript, com o
 2. Leia cada pergunta cuidadosamente.
 3. Selecione a opção que você acredita ser a correta.
 4. Clique no botão "Próxima" para passar para a próxima pergunta.
-5. No final do quiz, você receberá uma pontuação com base no número de respostas corretas.
+
 
 ## Tecnologias Utilizadas
 - **HTML:** Utilizado para estruturar a página web e definir o conteúdo.
